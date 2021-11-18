@@ -1,4 +1,4 @@
-// Volleyball_base.cpp : Ten plik zawiera funkcję „main”. W nim rozpoczyna się i kończy wykonywanie programu.
+﻿// Volleyball_base.cpp : Ten plik zawiera funkcję „main”. W nim rozpoczyna się i kończy wykonywanie programu.
 //
 /*
 1. Struct with name, surname, pesel (age from pesel), position + (add pesel)
@@ -44,8 +44,9 @@ Case:
 #include <algorithm>
 #include <assert.h>
 #include <iterator>  
+#include <ostream>
 
-using std::cout, std::cin, std::endl, std::setw, std::string, std::vector, std::ostream, std::fstream,std::sort,std::left, std::erase,std::ostream_iterator;
+using std::cout, std::cin, std::endl, std::setw, std::string, std::vector, std::ostream, std::fstream,std::sort,std::left, std::erase,std::ostream_iterator,std::ofstream;
 
 struct Volleyball 
 {
@@ -69,6 +70,7 @@ struct Volleyball
 using base = vector <Volleyball>;
 
 //Operator overloading
+
 ostream& operator <<(ostream& o, const Volleyball& a)
 {
 	const vector <string> Volley_position_Names{ "Player","Outside Hitter","Opposite Hitter", "Setter","Middle","Libero" };
@@ -81,7 +83,9 @@ ostream& operator <<(ostream& o, const Volleyball& a)
 }
 
 
+
 //Printing
+
 auto Print_base(base list)
 {
 	if (list.size() == 0)
@@ -96,10 +100,19 @@ auto Print_base(base list)
 	}
 }
 
+
 //Print more universal
 auto Print(base list)
 {
 	copy(list.begin(), list.end(), ostream_iterator<Volleyball>(cout, "\n"));
+}
+
+//Save to file
+auto Save(base list)
+{
+	ofstream outFile("Volleyball_base.txt");
+	copy(list.begin(), list.end(), ostream_iterator<Volleyball>(outFile, "\n"));
+	outFile.close();
 }
 
 //Adding
@@ -435,11 +448,11 @@ int main()
 	a.age = 23;
 	a.pos = Volleyball::Volley_position::Setter;
 
-	Add_to_base(a, Team);
+	//Add_to_base(a, Team);
 
 	//Adding with a constructor
 	b = Volleyball("Kasia", "Szklarz", 19, Volleyball::Volley_position::Middle);
-	Add_to_base(b, Team);
+	//Add_to_base(b, Team);
 	cout << endl;
 
 
@@ -451,7 +464,8 @@ int main()
 	//Print_base(Team);
 	//Delete(Team);
 	//Print_base(Team);
-	//Print(Team);
+	Print(Team);
+	Save(Team);
 
 	return 0;
 }
